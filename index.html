@@ -1,0 +1,1270 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Glean Assistant Briefs Mockup</title>
+  <style>
+    :root {
+      --blue: #343ced;
+      --navy: #08024e;
+      --ink: #09051f;
+      --muted: #666875;
+      --line: #e3e5ee;
+      --paper: #fafaf7;
+      --card: #ffffff;
+      --blue-soft: #eef0ff;
+      --lime: #d8fd49;
+      --peach: #fff0e9;
+      --lilac: #f3f1ff;
+      --source: #087c70;
+      --source-soft: #edfafa;
+      --shadow: 0 18px 45px rgba(18, 18, 44, .08);
+    }
+
+    * { box-sizing: border-box; }
+
+    body {
+      margin: 0;
+      color: var(--ink);
+      background: var(--paper);
+      font-family: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      letter-spacing: 0;
+    }
+
+    button, input { font: inherit; }
+
+    .app {
+      min-height: 100vh;
+      display: grid;
+      grid-template-columns: 250px minmax(0, 1fr);
+    }
+
+    .sidebar {
+      background: #fff;
+      border-right: 1px solid var(--line);
+      padding: 24px 18px;
+      position: sticky;
+      top: 0;
+      height: 100vh;
+      display: flex;
+      flex-direction: column;
+      gap: 22px;
+    }
+
+    .brand {
+      color: var(--blue);
+      font-size: 32px;
+      font-weight: 850;
+      line-height: 1;
+      margin: 2px 10px;
+    }
+
+    .nav {
+      display: grid;
+      gap: 6px;
+    }
+
+    .nav button {
+      border: 0;
+      background: transparent;
+      border-radius: 12px;
+      padding: 11px 12px;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      color: #4f5059;
+      cursor: pointer;
+      text-align: left;
+    }
+
+    .nav button.active {
+      color: var(--blue);
+      background: var(--blue-soft);
+      font-weight: 720;
+    }
+
+    .glyph {
+      width: 26px;
+      height: 26px;
+      border-radius: 9px;
+      display: grid;
+      place-items: center;
+      color: var(--blue);
+      border: 1px solid rgba(52,60,237,.22);
+      background: #fff;
+      flex: 0 0 auto;
+    }
+
+    .user {
+      margin-top: auto;
+      border: 1px solid var(--line);
+      border-radius: 16px;
+      padding: 12px;
+      display: flex;
+      gap: 10px;
+      align-items: center;
+    }
+
+    .avatar {
+      width: 34px;
+      height: 34px;
+      border-radius: 50%;
+      display: grid;
+      place-items: center;
+      color: #fff;
+      font-weight: 850;
+      background: linear-gradient(135deg, var(--blue), #8d76ff);
+    }
+
+    .user strong { display: block; font-size: 13px; }
+    .user span { color: var(--muted); font-size: 12px; }
+
+    .main {
+      min-width: 0;
+      display: grid;
+      grid-template-rows: auto 1fr;
+    }
+
+    .topbar {
+      height: 76px;
+      border-bottom: 1px solid var(--line);
+      background: rgba(255,255,255,.9);
+      backdrop-filter: blur(14px);
+      display: flex;
+      align-items: center;
+      gap: 18px;
+      padding: 0 28px;
+      position: sticky;
+      top: 0;
+      z-index: 10;
+    }
+
+    .search {
+      flex: 1;
+      max-width: 720px;
+      height: 46px;
+      border-radius: 14px;
+      border: 1px solid var(--line);
+      background: #fff;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      padding: 0 14px;
+      color: var(--muted);
+    }
+
+    .btn {
+      border: 0;
+      border-radius: 999px;
+      min-height: 40px;
+      padding: 0 18px;
+      background: var(--blue);
+      color: #fff;
+      cursor: pointer;
+      white-space: nowrap;
+      transition: transform .14s ease, background .14s ease, border-color .14s ease;
+    }
+
+    .btn:hover { transform: translateY(-1px); }
+    .btn:focus-visible,
+    .icon-btn:focus-visible,
+    .feedback button:focus-visible,
+    .queue-card:focus-visible,
+    .chip.source-link:focus-visible {
+      outline: 2px solid rgba(52,60,237,.34);
+      outline-offset: 2px;
+    }
+    .btn.secondary { background: #fff; color: var(--blue); border: 1px solid var(--blue); }
+    .btn.source {
+      background: var(--blue);
+      color: #fff;
+      border: 1px solid var(--blue);
+    }
+
+    .btn.source:hover {
+      background: #252bd7;
+      border-color: var(--blue);
+    }
+
+    .btn.ghost {
+      background: #fff;
+      color: #222331;
+      border: 1px solid var(--line);
+    }
+
+    .btn.ghost:hover {
+      background: #fbfbff;
+      border-color: #d4d7e5;
+    }
+
+    .btn.lime { background: var(--lime); color: #17133c; font-weight: 780; }
+    .btn.small { min-height: 34px; padding: 0 14px; font-size: 13px; }
+
+    .icon-btn {
+      width: 40px;
+      height: 40px;
+      border-radius: 50%;
+      border: 1px solid rgba(52,60,237,.16);
+      background: rgba(255,255,255,.56);
+      color: rgba(52,60,237,.66);
+      display: grid;
+      place-items: center;
+      cursor: pointer;
+      font-size: 18px;
+      line-height: 1;
+      transition: color .14s ease, border-color .14s ease, background .14s ease, transform .14s ease;
+    }
+
+    .icon-btn:hover {
+      color: var(--blue);
+      border-color: rgba(52,60,237,.34);
+      background: #fff;
+      transform: translateY(-1px);
+    }
+
+    #back-config {
+      background: var(--lime);
+      border-color: #b9ed1e;
+      color: #17133c;
+      box-shadow: 0 0 0 4px rgba(216,253,73,.28);
+      font-weight: 800;
+    }
+
+    #back-config:hover {
+      background: #cfff2f;
+      border-color: #a9dc14;
+      color: #17133c;
+    }
+
+    .content {
+      padding: 28px;
+      display: grid;
+      gap: 22px;
+      max-width: 1280px;
+      width: 100%;
+      margin: 0 auto;
+    }
+
+    .view { display: none; }
+    .view.active { display: grid; gap: 22px; }
+
+    .panel {
+      background: var(--card);
+      border: 1px solid var(--line);
+      border-radius: 20px;
+      box-shadow: var(--shadow);
+      overflow: hidden;
+    }
+
+    .panel-head {
+      padding: 20px 22px;
+      border-bottom: 1px solid var(--line);
+      background: linear-gradient(110deg, #fff 0%, var(--lilac) 62%, var(--peach) 100%);
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 18px;
+    }
+
+    .panel-head h2,
+    .panel-head h3 {
+      margin: 0;
+      font-size: 21px;
+      line-height: 1.15;
+      letter-spacing: 0;
+    }
+
+    .subtle {
+      color: var(--muted);
+      font-size: 13px;
+      line-height: 1.42;
+      margin: 5px 0 0;
+    }
+
+    .configure-grid {
+      max-width: 980px;
+    }
+
+    .templates {
+      padding: 16px 16px 10px;
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 10px;
+    }
+
+    .template {
+      border: 1px solid var(--line);
+      border-radius: 16px;
+      background: #fff;
+      padding: 12px 14px;
+      min-height: 108px;
+      display: grid;
+      align-content: start;
+      gap: 6px;
+      cursor: pointer;
+      text-align: left;
+    }
+
+    .template.active {
+      background: #f7f7ff;
+      border-color: var(--blue);
+    }
+
+    .template strong { font-size: 15px; line-height: 1.15; }
+    .template span { font-size: 13px; color: var(--muted); line-height: 1.34; }
+
+    .template-discovery {
+      margin: 0 16px 16px;
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 10px;
+    }
+
+    .template-more {
+      width: 100%;
+      border: 1px dashed rgba(52, 60, 237, 0.42);
+      border-radius: 16px;
+      background: #fbfbff;
+      min-height: 68px;
+      padding: 12px 14px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 12px;
+      text-align: center;
+      color: var(--ink);
+      cursor: pointer;
+    }
+
+    .template-more:hover {
+      border-color: var(--blue);
+      background: #f7f7ff;
+    }
+
+    .template-more.custom {
+      background: #fff;
+      border-color: rgba(24, 168, 120, .46);
+    }
+
+    .template-more.custom:hover {
+      border-color: #18a878;
+      background: #f5fffb;
+    }
+
+    .template-more strong {
+      display: block;
+      font-size: 14px;
+      line-height: 1.2;
+    }
+
+    .template-more small {
+      display: block;
+      color: var(--muted);
+      font-size: 13px;
+      line-height: 1.35;
+      margin-top: 3px;
+    }
+
+    .setup {
+      padding: 18px 20px 20px;
+      display: grid;
+      gap: 18px;
+      border-top: 1px solid var(--line);
+    }
+
+    .setup-block h4 {
+      display: flex;
+      justify-content: flex-start;
+      gap: 10px;
+      align-items: baseline;
+      margin: 0 0 10px;
+      font-size: 14px;
+      flex-wrap: wrap;
+    }
+
+    .setup-block h4 span {
+      color: var(--muted);
+      font-size: 12px;
+      font-weight: 500;
+    }
+
+    .chips {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+    }
+
+    .chip {
+      border: 1px solid var(--line);
+      border-radius: 999px;
+      padding: 8px 11px;
+      font-size: 13px;
+      display: inline-flex;
+      align-items: center;
+      gap: 7px;
+      color: #30313a;
+      background: #fff;
+    }
+
+    .chip.removable { cursor: pointer; }
+    .chip.removable:hover { border-color: #ff9f7c; background: #fff7f3; }
+
+    .chip.source-link {
+      color: var(--blue);
+      text-decoration: none;
+      cursor: pointer;
+      border-color: rgba(52,60,237,.24);
+    }
+
+    .chip.source-link:hover {
+      background: #f7f7ff;
+      border-color: rgba(52,60,237,.42);
+      text-decoration: underline;
+      text-decoration-thickness: 1px;
+      text-underline-offset: 3px;
+    }
+
+    .remove-mark {
+      width: 16px;
+      height: 16px;
+      border-radius: 50%;
+      display: grid;
+      place-items: center;
+      margin-left: 1px;
+      background: #ffe4dc;
+      color: #d84b2a;
+      font-size: 13px;
+      font-weight: 800;
+      line-height: 1;
+      opacity: 0;
+      transform: scale(.86);
+      transition: opacity .14s ease, transform .14s ease;
+    }
+
+    .chip.removable:hover .remove-mark {
+      opacity: 1;
+      transform: scale(1);
+    }
+
+    .dot {
+      width: 8px;
+      height: 8px;
+      border-radius: 50%;
+      background: var(--blue);
+      flex: 0 0 auto;
+    }
+
+    .green .dot { background: #18a878; }
+    .orange .dot { background: #ff8659; }
+    .pink .dot { background: #bd4dff; }
+    .lime .dot { background: #9abe00; }
+
+    .add-line {
+      display: flex;
+      gap: 8px;
+      margin-top: 10px;
+    }
+
+    .add-line input {
+      min-width: 0;
+      flex: 1;
+      height: 36px;
+      border-radius: 999px;
+      border: 1px solid var(--line);
+      padding: 0 12px;
+      outline: none;
+    }
+
+    .add-line input:focus { border-color: var(--blue); }
+
+    .result-layout {
+      display: grid;
+      grid-template-columns: minmax(560px, 1fr) 340px;
+      gap: 22px;
+      align-items: start;
+    }
+
+    .result-shell {
+      min-width: 0;
+    }
+
+    .brief-card {
+      border: 1px solid rgba(52,60,237,.18);
+      border-radius: 18px;
+      overflow: hidden;
+      background: #fff;
+    }
+
+    .brief-card.is-sliding {
+      animation: slide-brief .24s ease;
+    }
+
+    @keyframes slide-brief {
+      0% { opacity: 1; transform: translateX(0); }
+      50% { opacity: .15; transform: translateX(-24px); }
+      51% { opacity: .15; transform: translateX(24px); }
+      100% { opacity: 1; transform: translateX(0); }
+    }
+
+    .brief-top {
+      padding: 20px 22px;
+      display: flex;
+      justify-content: space-between;
+      gap: 16px;
+      border-bottom: 1px solid var(--line);
+      align-items: flex-start;
+    }
+
+    .meta {
+      color: var(--muted);
+      font-size: 13px;
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .brief-top h2 {
+      margin: 7px 0 0;
+      font-size: 28px;
+      line-height: 1.08;
+      letter-spacing: 0;
+      max-width: 740px;
+    }
+
+    .brief-body {
+      padding: 20px 22px;
+      display: grid;
+      gap: 16px;
+    }
+
+    .brief-section {
+      border-top: 1px solid #f0f0f4;
+      padding-top: 14px;
+    }
+
+    .brief-section:first-child { border-top: 0; padding-top: 0; }
+
+    .brief-section strong {
+      display: block;
+      color: var(--blue);
+      text-transform: uppercase;
+      font-size: 12px;
+      letter-spacing: .02em;
+      margin-bottom: 6px;
+    }
+
+    .brief-section p {
+      margin: 0;
+      color: #393a43;
+      line-height: 1.5;
+      font-size: 14px;
+    }
+
+    .sources-drawer {
+      display: none;
+      border: 1px solid var(--line);
+      border-radius: 16px;
+      padding: 14px;
+      background: #fbfbff;
+    }
+
+    .sources-drawer.open { display: block; }
+
+    .source-row {
+      display: grid;
+      grid-template-columns: 10px 1fr;
+      gap: 9px;
+      padding: 9px 0;
+      border-top: 1px solid #ececf4;
+      font-size: 13px;
+      line-height: 1.35;
+    }
+
+    .source-row:first-child { border-top: 0; }
+    .source-row .dot { margin-top: 4px; }
+
+    .source-controls {
+      display: flex;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 8px;
+    }
+
+    .source-more {
+      border: 1px solid rgba(52,60,237,.24);
+      border-radius: 999px;
+      padding: 8px 12px;
+      background: #fff;
+      color: var(--blue);
+      cursor: pointer;
+      font-size: 13px;
+      font-weight: 400;
+      line-height: 1;
+      min-height: 34px;
+      transition: transform .14s ease, background .14s ease, border-color .14s ease;
+    }
+
+    .source-more:hover {
+      background: #f7f7ff;
+      border-color: rgba(52,60,237,.42);
+      transform: translateY(-1px);
+    }
+
+    .source-more:focus-visible {
+      outline: 2px solid rgba(52,60,237,.34);
+      outline-offset: 2px;
+    }
+
+    .review-footer {
+      border-top: 1px solid var(--line);
+      padding: 16px 22px 20px;
+      display: grid;
+      grid-template-columns: auto minmax(320px, 1fr);
+      gap: 12px;
+      align-items: center;
+    }
+
+    .feedback {
+      display: flex;
+      gap: 8px;
+      flex-wrap: wrap;
+    }
+
+    .feedback button {
+      border: 1px solid var(--line);
+      background: #fff;
+      color: #222331;
+      border-radius: 50%;
+      width: 40px;
+      height: 40px;
+      padding: 0;
+      display: grid;
+      place-items: center;
+      cursor: pointer;
+    }
+
+    .feedback svg {
+      width: 18px;
+      height: 18px;
+      stroke: currentColor;
+      stroke-width: 2;
+      fill: none;
+      stroke-linecap: round;
+      stroke-linejoin: round;
+    }
+
+    .feedback button.active,
+    .feedback button:hover {
+      border-color: var(--blue);
+      color: var(--blue);
+      background: var(--blue-soft);
+    }
+
+    .review-actions {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 10px;
+      justify-self: end;
+      width: min(100%, 420px);
+    }
+
+    .btn.cta {
+      min-height: 48px;
+      font-weight: 760;
+      font-size: 15px;
+    }
+
+    .brief-queue {
+      padding: 14px;
+      display: grid;
+      gap: 10px;
+      align-content: start;
+      min-height: 0;
+      overflow-y: auto;
+      scrollbar-gutter: stable;
+    }
+
+    .queue-panel {
+      display: grid;
+      grid-template-rows: auto minmax(0, 1fr);
+      height: var(--brief-card-height, auto);
+      min-height: 0;
+    }
+
+    .queue-card {
+      border: 1px solid var(--line);
+      border-radius: 16px;
+      background: #fff;
+      padding: 14px;
+      cursor: pointer;
+      text-align: left;
+      display: grid;
+      gap: 8px;
+      transition: border-color .14s ease, background .14s ease, transform .14s ease;
+    }
+
+    .queue-card:hover {
+      border-color: rgba(52,60,237,.4);
+      background: #fbfbff;
+      transform: translateY(-1px);
+    }
+
+    .queue-card strong {
+      display: block;
+      font-size: 14px;
+      line-height: 1.2;
+    }
+
+    .queue-card p {
+      margin: 0;
+      color: var(--muted);
+      font-size: 13px;
+      line-height: 1.42;
+    }
+
+    .queue-meta {
+      display: flex;
+      gap: 8px;
+      align-items: center;
+      flex-wrap: wrap;
+      color: var(--muted);
+      font-size: 12px;
+    }
+
+    .toast {
+      position: fixed;
+      left: 50%;
+      bottom: 24px;
+      transform: translateX(-50%) translateY(20px);
+      background: var(--navy);
+      color: #fff;
+      border-radius: 999px;
+      padding: 12px 18px;
+      opacity: 0;
+      transition: opacity .18s ease, transform .18s ease;
+      box-shadow: 0 18px 45px rgba(8,2,78,.22);
+      pointer-events: none;
+      z-index: 30;
+      font-size: 14px;
+    }
+
+    .toast.show {
+      opacity: 1;
+      transform: translateX(-50%) translateY(0);
+    }
+
+    @media (max-width: 1120px) {
+      .app { grid-template-columns: 1fr; }
+      .sidebar { display: none; }
+      .result-layout { grid-template-columns: 1fr; }
+      .review-footer { grid-template-columns: 1fr; }
+      .review-actions {
+        width: 100%;
+        justify-self: stretch;
+      }
+      .templates { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+    }
+
+    @media (max-width: 720px) {
+      .topbar { padding: 0 16px; }
+      .topbar .btn { display: none; }
+      .content { padding: 18px; }
+      .templates { grid-template-columns: 1fr; }
+      .template-discovery { grid-template-columns: 1fr; }
+      .brief-top { display: grid; }
+      .review-actions { grid-template-columns: 1fr; }
+    }
+  </style>
+</head>
+<body>
+<div style="background:#08024e;color:#fff;font:500 13px/1.5 -apple-system,BlinkMacSystemFont,'Segoe UI',Arial,sans-serif;padding:10px 16px;text-align:center;">
+Independent product concept and interactive mockup by Ben Dus. Not affiliated with, endorsed by, or produced by Glean.
+</div>
+
+  <div class="app">
+    <aside class="sidebar">
+      <div class="brand">glean</div>
+      <nav class="nav" aria-label="Product navigation">
+        <button><span class="glyph">⌕</span> Search</button>
+        <button class="active"><span class="glyph">✦</span> Assistant</button>
+        <button><span class="glyph">▦</span> Knowledge</button>
+        <button><span class="glyph">○</span> Directory</button>
+        <button><span class="glyph">⚙</span> Admin</button>
+      </nav>
+      <div class="user">
+        <div class="avatar">M</div>
+        <div><strong>Maya Chen</strong><span>Senior PM · Connect Platform</span></div>
+      </div>
+    </aside>
+
+    <main class="main">
+      <header class="topbar">
+        <div class="search">⌕ Search or ask Glean anything across work...</div>
+        <button class="btn secondary">Daily Digest</button>
+        <button class="btn">Ask Assistant</button>
+      </header>
+
+      <section class="content">
+        <section class="view" id="view-config">
+          <div class="configure-grid">
+            <section class="panel">
+              <div class="panel-head">
+                <div>
+                  <h2>Configure Briefs</h2>
+                  <p class="subtle">Glean suggests role-aware templates and pre-fills Topics, Spaces, and People from your graph.</p>
+                </div>
+                <button class="btn lime" id="quick-activate">Save Brief</button>
+              </div>
+
+              <div class="templates" id="templates"></div>
+              <div class="template-discovery">
+                <button class="template-more" id="more-templates" type="button" aria-label="Browse more Brief templates">
+                  <span>
+                    <strong>Browse 13 more Brief templates</strong>
+                    <small>Roadmap decisions, renewal risk, incidents, hiring loops, and other role-specific patterns.</small>
+                  </span>
+                </button>
+                <button class="template-more custom" id="create-template" type="button" aria-label="Create your own Brief">
+                  <span>
+                    <strong>Create your own</strong>
+                    <small>Describe what you care about, and Glean proposes Topics, Spaces, and People to review.</small>
+                  </span>
+                </button>
+              </div>
+
+              <div class="setup">
+                <div class="setup-block">
+                  <h4>Topics <span>what this Brief watches</span></h4>
+                  <div class="chips" id="topics"></div>
+                  <div class="add-line">
+                    <input id="topic-input" placeholder="Add topic" />
+                    <button class="btn small secondary" data-add="topic">Add</button>
+                  </div>
+                </div>
+
+                <div class="setup-block">
+                  <h4>Spaces <span>where relevant work happens</span></h4>
+                  <div class="chips" id="spaces"></div>
+                  <div class="add-line">
+                    <input id="space-input" placeholder="Add space" />
+                    <button class="btn small secondary" data-add="space">Add</button>
+                  </div>
+                </div>
+
+                <div class="setup-block">
+                  <h4>People <span>whose engagement changes priority</span></h4>
+                  <div class="chips" id="people"></div>
+                  <div class="add-line">
+                    <input id="person-input" placeholder="Add person" />
+                    <button class="btn small secondary" data-add="person">Add</button>
+                  </div>
+                </div>
+
+              </div>
+            </section>
+          </div>
+        </section>
+
+        <section class="view active" id="view-result">
+          <div class="result-layout">
+            <section class="result-shell">
+              <article class="brief-card">
+                <div class="brief-top">
+                  <div>
+                    <div class="meta"><span id="brief-template">Launch Risk Brief</span><span>·</span><span id="source-count">12 sources</span><span>·</span><span>Time and date: May 6, 2026, 7:30 AM</span></div>
+                    <h2 id="brief-title">Admin permissions launch may slip without support readiness</h2>
+                  </div>
+                </div>
+
+                <div class="brief-body">
+                  <div class="brief-section">
+                    <strong>What happened</strong>
+                    <p id="what-happened">Linear shows two open launch blockers, Support asked for enablement docs, Sales mentioned customer confusion in a Gong note, and the launch plan still has no support-readiness owner.</p>
+                  </div>
+                  <div class="brief-section">
+                    <strong>What it means for you</strong>
+                    <p id="what-means">The feature may be technically close, but the launch path is not ready. Since you own the admin-permissions rollout, Glean is flagging the missing support handoff before it becomes an escalation.</p>
+                  </div>
+                  <div class="brief-section">
+                    <strong>Sources worth reading</strong>
+                    <div class="chips source-controls" id="source-chips"></div>
+                  </div>
+                  <div class="sources-drawer" id="sources-drawer"></div>
+                </div>
+
+                <div class="review-footer">
+                  <div class="feedback">
+                    <button data-feedback="Useful" aria-label="Useful" title="Useful">
+                      <svg viewBox="0 0 24 24" aria-hidden="true">
+                        <path d="M7 10v12"></path>
+                        <path d="M15 5.88 14 10h5.83a2 2 0 0 1 1.92 2.56l-2.33 8A2 2 0 0 1 17.5 22H4a2 2 0 0 1-2-2v-8a2 2 0 0 1 2-2h2.76a2 2 0 0 0 1.79-1.11L12 2a3.13 3.13 0 0 1 3 3.88Z"></path>
+                      </svg>
+                    </button>
+                    <button data-feedback="Not relevant" aria-label="Not relevant" title="Not relevant">
+                      <svg viewBox="0 0 24 24" aria-hidden="true">
+                        <path d="M17 14V2"></path>
+                        <path d="M9 18.12 10 14H4.17a2 2 0 0 1-1.92-2.56l2.33-8A2 2 0 0 1 6.5 2H20a2 2 0 0 1 2 2v8a2 2 0 0 1-2 2h-2.76a2 2 0 0 0-1.79 1.11L12 22a3.13 3.13 0 0 1-3-3.88Z"></path>
+                      </svg>
+                    </button>
+                    <button class="icon-btn" id="back-config" aria-label="Configure Brief" title="Configure Brief"><span aria-hidden="true">⚙</span></button>
+                  </div>
+                  <div class="review-actions">
+                    <button class="btn ghost cta" id="later-brief">Later</button>
+                    <button class="btn lime cta" id="next-brief">Next</button>
+                  </div>
+                </div>
+              </article>
+            </section>
+
+            <aside class="panel queue-panel">
+              <div class="panel-head">
+                <div>
+                  <h3>Up next</h3>
+                  <p class="subtle">More Briefs Glean found for you.</p>
+                </div>
+              </div>
+              <div class="brief-queue" id="brief-queue"></div>
+            </aside>
+          </div>
+        </section>
+      </section>
+    </main>
+  </div>
+
+  <div class="toast" id="toast">Saved</div>
+
+  <script>
+    const templates = [
+      {
+        id: "launch",
+        name: "Launch Risk Brief",
+        promise: "Catch cross-functional blockers before they become exec escalations by watching launch signals across channels, docs, tickets, and senior stakeholders.",
+        topics: ["Admin permissions launch", "support readiness", "customer confusion", "enablement docs", "launch blockers"],
+        spaces: ["Admin permissions launch plan", "Linear launch blockers", "#support-readiness", "Gong customer calls", "Support enablement docs"],
+        people: ["Maya Chen · Owner", "Elena Morris · Support Lead", "Ari Patel · Sales Director", "Tomas Rivera · Eng Lead"],
+        title: "Admin permissions launch may slip without support readiness",
+        happened: "Linear shows two open launch blockers, Support asked for enablement docs, Sales mentioned customer confusion in a Gong note, and the launch plan still has no support-readiness owner.",
+        means: "The feature may be technically close, but the launch path is not ready. Since you own the admin-permissions rollout, Glean is flagging the missing support handoff before it becomes an escalation.",
+        next: "Confirm the support-readiness owner and decide whether the enablement docs need to block launch.",
+        sourceTotal: 12,
+        sources: ["Admin permissions launch plan", "Linear launch blockers", "Support request", "Gong call"],
+        otherSources: ["Readiness checklist", "Support enablement request", "Admin permissions RFC", "Customer call transcript", "Launch review notes", "Support macro draft", "Sales enablement request", "Beta feedback thread", "PMM launch doc"],
+        why: "Topic: admin permissions launch · Spaces: Linear, support docs, Gong, launch plan · People: Maya Chen, Elena Morris, Ari Patel.",
+        autosuggest: "After repeated useful Briefs, Glean may suggest support readiness as a watched Topic for launches."
+      },
+      {
+        id: "customer",
+        name: "Customer Escalation Brief",
+        promise: "Connect support, sales, and account signals to the product areas you own so customer urgency does not stay trapped in one system.",
+        topics: ["BluePeak escalation", "strategic accounts", "Q3 launch scope", "renewal risk"],
+        spaces: ["Salesforce strategic accounts", "Zendesk P1 queue", "#cs-escalations", "Linear launch blockers", "Gong renewal calls"],
+        people: ["Nora Kim · CSM Lead", "Ari Patel · Sales Director", "Maya Chen · Owner", "Elena Morris · Support Lead"],
+        title: "BluePeak escalation now touches Q3 launch scope",
+        happened: "A P1 support ticket, Salesforce renewal note, and CS Slack thread all reference the same missing partner API behavior.",
+        means: "BluePeak is a top-15 account and the issue maps to your Q3 launch scope. This is more than support noise.",
+        next: "Read the P1 ticket and confirm whether this belongs in the Q3 launch readiness review.",
+        sourceTotal: 11,
+        sources: ["Zendesk P1", "Salesforce account note", "#cs-escalations"],
+        otherSources: ["Gong renewal call", "Linear launch blocker", "Support macro thread", "Account health dashboard", "CS weekly doc", "Product request queue", "Exec account review", "Renewal risk note"],
+        why: "Topic: strategic account escalation · Spaces: Salesforce, Zendesk, Slack · People: Nora Kim, Ari Patel.",
+        autosuggest: "Glean may suggest adding retail strategic accounts after repeated useful Briefs."
+      },
+      {
+        id: "incident",
+        name: "Incident Impact Brief",
+        promise: "An incident is resolved technically, but customer, roadmap, support, or trust impact remains unresolved.",
+        topics: ["checkout incident", "customer trust", "support backlog", "roadmap follow-up"],
+        spaces: ["#incident-review", "Statuspage incident notes", "Zendesk impacted accounts", "Linear postmortem actions", "Roadmap follow-up doc"],
+        people: ["Nora Kim · CSM Lead", "Elena Morris · Support Lead", "Tomas Rivera · Eng Lead", "Maya Chen · Owner"],
+        title: "Checkout incident is closed, but customer impact is still moving",
+        happened: "Engineering marked the checkout incident resolved, but support tickets kept rising, a CSM flagged two renewal accounts, and the roadmap follow-up doc added a trust recovery item.",
+        means: "The technical fix is not the end of the incident for you. The remaining work now spans customer communication, roadmap tradeoffs, and trust repair.",
+        next: "Confirm the customer follow-up owner and decide whether the roadmap trust item needs to enter the next product review.",
+        sourceTotal: 14,
+        sources: ["#incident-review", "Zendesk impacted accounts", "Statuspage notes", "Linear postmortem", "Roadmap follow-up doc"],
+        otherSources: ["CS impact tracker", "Customer comms draft", "Support trend report", "Trust recovery notes", "Incident timeline", "Product review agenda", "Renewal account list", "Engineering retro notes", "Exec incident recap"],
+        why: "Topic: checkout incident · Spaces: incident notes, Zendesk, Linear, roadmap docs · People: Nora Kim, Elena Morris, Tomas Rivera.",
+        autosuggest: "Glean may suggest adding customer trust recovery as a watched Topic after repeated useful incident Briefs."
+      },
+      {
+        id: "metrics",
+        name: "Metrics Movement Brief",
+        promise: "Turn important metric movement into a person-specific insight by linking dashboard changes to workstreams, hypotheses, and owners.",
+        topics: ["activation funnel", "Connect Platform", "week-over-week movement", "partner API edge cases"],
+        spaces: ["Amplitude activation board", "Mixpanel funnel", "#connect-platform", "Roadmap metrics doc", "Looker Connect health"],
+        people: ["Ravi Shah · Data", "Tomas Rivera · Eng Lead", "Maya Chen · Owner", "Lena Ortiz · Analytics Eng"],
+        title: "Connect Platform activation dropped 14% week over week",
+        happened: "The activation funnel dipped in Amplitude, and an Eng Slack thread points to a partner API edge case.",
+        means: "This is not just a dashboard movement. It may be tied to the same API behavior your team is already discussing.",
+        next: "Open the funnel and the Eng hypothesis before deciding whether to raise this in product review.",
+        sourceTotal: 10,
+        sources: ["Amplitude board", "#connect-platform"],
+        otherSources: ["Mixpanel funnel", "Looker Connect health", "Roadmap metrics doc", "Partner API edge-case thread", "Analytics investigation note", "Activation experiment log", "Data quality check", "Weekly product review"],
+        why: "Topic: activation funnel · Spaces: Amplitude, Mixpanel, Slack · People: Ravi Shah, Tomas Rivera.",
+        autosuggest: "Glean may suggest adding activation anomaly once Maya marks two metrics Briefs useful."
+      }
+    ];
+
+    const decisionBrief = {
+      id: "decision",
+      name: "Decision Follow-up Brief",
+      promise: "Find decisions that are implied across docs and conversations but still missing an owner, deadline, or next action.",
+      topics: ["pricing migration", "launch gate", "owner decision", "Friday roadmap review"],
+      spaces: ["Roadmap review notes", "Pricing migration doc", "#connect-platform", "Linear MIG-128", "#roadmap-review"],
+      people: ["Kayla Park · Design", "Tomas Rivera · Eng Lead", "Maya Chen · Owner", "Sarah Wen · CPO"],
+      title: "Pricing migration launch gate needs one owner before Friday",
+      happened: "Roadmap notes, a pricing doc comment, and Linear MIG-128 all point to the same unresolved launch-gate decision.",
+      means: "This is a small coordination gap now, but it affects your launch checklist and could slow the Connect Platform migration review.",
+      next: "Assign one decision owner and add the launch-gate call to the Friday roadmap review agenda.",
+      sourceTotal: 13,
+      sources: ["Roadmap review notes", "Pricing migration doc", "#connect-platform", "Linear MIG-128"],
+      otherSources: ["#roadmap-review", "Design decision thread", "Launch checklist", "PMM readiness doc", "Pricing council notes", "Migration owner table", "Friday agenda draft", "Exec sync notes", "Partner tier FAQ"],
+      why: "Topic: pricing migration · Spaces: Roadmap notes, docs, Slack, Linear · People: Kayla Park, Tomas Rivera.",
+      autosuggest: "Glean may suggest adding launch gate as a watched Topic after repeated useful Briefs."
+    };
+
+    const reviewBriefs = [...templates, decisionBrief];
+
+    let selected = templates[0];
+    let reviewIndex = 0;
+    let active = false;
+
+    const $ = (id) => document.getElementById(id);
+
+    function showToast(text) {
+      const toast = $("toast");
+      toast.textContent = text;
+      toast.classList.add("show");
+      setTimeout(() => toast.classList.remove("show"), 1500);
+    }
+
+    function chipClass(index) {
+      return ["", "green", "orange", "pink", "lime"][index % 5];
+    }
+
+    function sourceCount(brief) {
+      return brief.sourceTotal ?? brief.sources.length;
+    }
+
+    function setSelectedBrief(brief) {
+      selected = brief;
+      const nextIndex = reviewBriefs.findIndex(item => item.id === brief.id);
+      reviewIndex = nextIndex >= 0 ? nextIndex : 0;
+    }
+
+    function clearFeedback() {
+      document.querySelectorAll("[data-feedback]").forEach(button => button.classList.remove("active"));
+    }
+
+    function syncQueueHeight() {
+      const resultView = $("view-result");
+      const card = document.querySelector(".brief-card");
+      const queuePanel = document.querySelector(".queue-panel");
+      if (!card || !queuePanel) return;
+
+      if (!resultView.classList.contains("active") || window.innerWidth <= 1120) {
+        queuePanel.style.removeProperty("--brief-card-height");
+        return;
+      }
+
+      requestAnimationFrame(() => {
+        const height = Math.ceil(card.getBoundingClientRect().height);
+        if (height > 0) {
+          queuePanel.style.setProperty("--brief-card-height", `${height}px`);
+        }
+      });
+    }
+
+    function showStep(step) {
+      $("view-config").classList.toggle("active", step === "config");
+      $("view-result").classList.toggle("active", step === "result");
+      if (step === "result" && !active) {
+        showToast("Previewing result before activation");
+      }
+      syncQueueHeight();
+    }
+
+    function renderTemplates() {
+      $("templates").innerHTML = templates.map(t => `
+        <button class="template ${t.id === selected.id ? "active" : ""}" data-template="${t.id}">
+          <strong>${t.name}</strong>
+          <span>${t.promise}</span>
+        </button>
+      `).join("");
+
+      document.querySelectorAll("[data-template]").forEach(button => {
+        button.addEventListener("click", () => {
+          setSelectedBrief(templates.find(t => t.id === button.dataset.template));
+          active = false;
+          render();
+        });
+      });
+    }
+
+    function renderChips(kind, values) {
+      $(kind).innerHTML = values.map((value, index) => `
+        <span class="chip removable ${chipClass(index)}" data-kind="${kind}" data-index="${index}">
+          <span class="dot"></span>${value}<span class="remove-mark" aria-hidden="true">&times;</span>
+        </span>
+      `).join("");
+
+      document.querySelectorAll(`[data-kind="${kind}"]`).forEach(chip => {
+        chip.addEventListener("click", () => {
+          selected[kind].splice(Number(chip.dataset.index), 1);
+          render();
+          showToast("Removed");
+        });
+      });
+    }
+
+    function renderSourceChips() {
+      const sourceLinks = selected.sources.map((source, index) => `
+        <a class="chip source-link ${chipClass(index)}" href="#source-${selected.id}-${index}" data-source-link="${index}" aria-label="Open source: ${source}"><span class="dot"></span>${source}</a>
+      `).join("");
+
+      $("source-chips").innerHTML = `
+        ${sourceLinks}
+        <button class="source-more" id="open-sources" type="button">Other sources</button>
+      `;
+
+      $("sources-drawer").innerHTML = (selected.otherSources || []).map((source, index) => `
+        <div class="source-row" id="source-${selected.id}-other-${index}"><span class="dot"></span><div><strong>${source}</strong><br>Additional source · permission checked</div></div>
+      `).join("");
+
+      document.querySelectorAll("[data-source-link]").forEach(link => {
+        link.addEventListener("click", event => {
+          event.preventDefault();
+          const index = Number(link.dataset.sourceLink);
+          showToast(`Source opened: ${selected.sources[index]}`);
+        });
+      });
+
+      $("open-sources").addEventListener("click", toggleSources);
+    }
+
+    function toggleSources() {
+      const isOpen = $("sources-drawer").classList.toggle("open");
+      $("open-sources").textContent = isOpen ? "Hide sources" : "Other sources";
+      syncQueueHeight();
+      showToast(isOpen ? "Other sources opened" : "Other sources hidden");
+    }
+
+    function renderQueue() {
+      const upcoming = Array.from({ length: 4 }, (_, index) => {
+        return reviewBriefs[(reviewIndex + index + 1) % reviewBriefs.length];
+      });
+
+      $("brief-queue").innerHTML = upcoming.map((brief, index) => `
+        <button class="queue-card" data-brief="${brief.id}">
+          <div class="queue-meta">
+            <span>${sourceCount(brief)} sources</span>
+          </div>
+          <strong>${brief.name}</strong>
+          <p>${brief.title}</p>
+        </button>
+      `).join("");
+
+      document.querySelectorAll("[data-brief]").forEach(button => {
+        button.addEventListener("click", () => {
+          const brief = reviewBriefs.find(item => item.id === button.dataset.brief);
+          slideToBrief(brief, `${brief.name} loaded`);
+        });
+      });
+    }
+
+    function renderActivation() {
+      $("quick-activate").textContent = "Save Brief";
+    }
+
+    function render() {
+      renderTemplates();
+      renderChips("topics", selected.topics);
+      renderChips("spaces", selected.spaces);
+      renderChips("people", selected.people);
+      $("brief-template").textContent = selected.name;
+      $("source-count").textContent = `${sourceCount(selected)} sources`;
+      $("brief-title").textContent = selected.title;
+      $("what-happened").textContent = selected.happened;
+      $("what-means").textContent = selected.means;
+      renderSourceChips();
+      renderQueue();
+      renderActivation();
+      $("sources-drawer").classList.remove("open");
+      $("open-sources").textContent = "Other sources";
+      clearFeedback();
+      syncQueueHeight();
+    }
+
+    function activateAndShowResult() {
+      active = true;
+      renderActivation();
+      showStep("result");
+      showToast(`${selected.name} saved`);
+    }
+
+    function slideToBrief(brief, toastText = "Next Brief") {
+      const card = document.querySelector(".brief-card");
+      card.classList.add("is-sliding");
+      setTimeout(() => {
+        setSelectedBrief(brief);
+        render();
+        card.classList.remove("is-sliding");
+        showToast(toastText);
+      }, 120);
+    }
+
+    function showNextBrief() {
+      const nextBrief = reviewBriefs[(reviewIndex + 1) % reviewBriefs.length];
+      slideToBrief(nextBrief);
+    }
+
+    function saveForLater() {
+      const nextBrief = reviewBriefs[(reviewIndex + 1) % reviewBriefs.length];
+      slideToBrief(nextBrief, "Saved for later");
+    }
+
+    document.querySelectorAll("[data-add]").forEach(button => {
+      button.addEventListener("click", () => {
+        const kind = button.dataset.add;
+        const input = $(`${kind}-input`);
+        const value = input.value.trim();
+        if (!value) return;
+        const collection = kind === "person" ? "people" : `${kind}s`;
+        selected[collection].push(value);
+        input.value = "";
+        render();
+        showToast("Added");
+      });
+    });
+
+    ["topic-input", "space-input", "person-input"].forEach(id => {
+      $(id).addEventListener("keydown", event => {
+        if (event.key === "Enter") {
+          const kind = id.split("-")[0];
+          document.querySelector(`[data-add="${kind}"]`).click();
+        }
+      });
+    });
+
+    $("quick-activate").addEventListener("click", activateAndShowResult);
+    $("more-templates").addEventListener("click", () => showToast("Template library opened"));
+    $("create-template").addEventListener("click", () => showToast("Glean will suggest a relevance map"));
+    $("back-config").addEventListener("click", () => showStep("config"));
+    $("next-brief").addEventListener("click", showNextBrief);
+    $("later-brief").addEventListener("click", saveForLater);
+    window.addEventListener("resize", syncQueueHeight);
+
+    document.querySelectorAll("[data-feedback]").forEach(button => {
+      button.addEventListener("click", () => {
+        document.querySelectorAll("[data-feedback]").forEach(b => b.classList.remove("active"));
+        button.classList.add("active");
+        showToast(`Feedback captured: ${button.dataset.feedback}`);
+      });
+    });
+
+    render();
+  </script>
+</body>
+</html>
