@@ -1,7 +1,7 @@
 # Glean Briefs — interactive mockup
 
-Independent product concept and interactive mockup by Ben Dus.
-Not affiliated with, endorsed by, or produced by Glean.
+Product concept and interactive mockup designed and built by **Ben Dus**.
+Independent work. Glean did not create, endorse, or authorize it.
 
 Live: https://benjamindus.github.io/glean-briefs-mockup/
 
